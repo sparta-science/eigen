@@ -1,6 +1,8 @@
 Eigen
 =====
 
+Work in progress.
+
 A wrapper for the [Eigen](http://eigen.tuxfamily.org) C++ linear algebra library.
 
 
