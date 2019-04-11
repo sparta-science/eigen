@@ -28,5 +28,6 @@ defmodule Eigen.NIFs do
     end
   end
 
-  def hello(), do: :erlang.nif_error(:nif_library_not_loaded)
+  def matrix3d_random(), do: :erlang.nif_error(:nif_library_not_loaded)
+  def matrix3d_test(), do: :erlang.nif_error(:nif_library_not_loaded)
 end
