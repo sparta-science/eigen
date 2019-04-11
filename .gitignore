@@ -1,11 +1,11 @@
 .tool-versions
-./_build
-./priv
-./cover
-./deps
-./doc
+_build
+priv
+cover
+deps
+doc
 
-./.fetch
+.fetch
 
 erl_crash.dump
 *.ez
