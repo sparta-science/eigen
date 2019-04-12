@@ -10,6 +10,7 @@ using namespace Eigen;
 extern "C" {
 #endif /* __cplusplus */
 
+static ERL_NIF_TERM add(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM matrix3d_random(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM matrix3d_test(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]);
 static ERL_NIF_TERM matrix3d_to_term(ErlNifEnv* env, Matrix3d matrix);

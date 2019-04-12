@@ -30,4 +30,5 @@ defmodule Eigen.NIFs do
 
   def matrix3d_random(), do: :erlang.nif_error(:nif_library_not_loaded)
   def matrix3d_test(), do: :erlang.nif_error(:nif_library_not_loaded)
+  def add(first, second) when is_integer(first) and is_integer(second), do: :erlang.nif_error(:nif_library_not_loaded)
 end

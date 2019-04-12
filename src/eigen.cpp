@@ -6,6 +6,18 @@
 using namespace Eigen;
 using namespace std;
 
+static ERL_NIF_TERM add(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
+{
+  ErlNifSInt64 first, second;
+
+  (void)(argc);
+
+  if (!enif_get_int64(env, argv[0], &first)) return enif_make_badarg(env);
+  if (!enif_get_int64(env, argv[1], &second)) return enif_make_badarg(env);
+
+  return enif_make_int(env, first + second);
+}
+
 static ERL_NIF_TERM matrix3d_random(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 {
   Matrix3d m = Matrix3d::Random();
@@ -56,6 +68,7 @@ static ERL_NIF_TERM matrix3d_to_term(ErlNifEnv* env, Matrix3d m)
 
 static ErlNifFunc nif_functions[] =
 {
+  {"add", 2, add, 0},
   {"matrix3d_random", 0, matrix3d_random, 0},
   {"matrix3d_test", 0, matrix3d_test, 0}
 };
