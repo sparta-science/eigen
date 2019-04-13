@@ -32,11 +32,17 @@ defmodule Eigen.Matrix3d do
     end
   end
 
-  def matrix3d_new(), do: :erlang.nif_error(:nif_library_not_loaded)
+  def matrix3d_empty(), do: :erlang.nif_error(:nif_library_not_loaded)
+  def matrix3d_new(_list), do: :erlang.nif_error(:nif_library_not_loaded)
   def matrix3d_to_list(ref) when is_reference(ref), do: :erlang.nif_error(:nif_library_not_loaded)
 
   def new() do
-    reference = matrix3d_new()
+    reference = matrix3d_empty()
+    %__MODULE__{__reference__: reference}
+  end
+
+  def new([first | _] = list) when is_list(first) do
+    reference = matrix3d_new(list)
     %__MODULE__{__reference__: reference}
   end
 

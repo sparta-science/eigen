@@ -21,27 +21,52 @@ static int load(ErlNifEnv *, void** priv_data, ERL_NIF_TERM load_info);
 ***************************/
 
 static ErlNifFunc nif_functions[] = {
-  {"matrix3d_new", 0, matrix3d_new, 0},
+  {"matrix3d_empty", 0, matrix3d_empty, 0},
+  {"matrix3d_new", 1, matrix3d_new, 0},
   {"matrix3d_to_list", 1, matrix3d_to_list, 0}
 };
 
-static ERL_NIF_TERM matrix3d_new(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+static ERL_NIF_TERM matrix3d_empty(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   ERL_NIF_TERM result;
 
   Matrix3d* mtx = (Matrix3d*) enif_alloc_resource(matrix3d_type, sizeof(Matrix3d));
 
   Matrix3d matrix;
+  memcpy(mtx, &matrix, sizeof(Matrix3d));
 
-  matrix(0, 0) = 1;
-  matrix(0, 1) = 2;
-  matrix(0, 2) = 3;
-  matrix(1, 0) = 4;
-  matrix(1, 1) = 5;
-  matrix(1, 2) = 6;
-  matrix(2, 0) = 7;
-  matrix(2, 1) = 8;
-  matrix(2, 2) = 9;
+  result = enif_make_resource(env, mtx);
+  enif_release_resource(mtx);
 
+  return result;
+}
+
+static ERL_NIF_TERM matrix3d_new(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+  if (argc != 1) return enif_make_badarg(env);
+
+  Matrix3d matrix;
+  ERL_NIF_TERM result;
+  ERL_NIF_TERM list = argv[0];
+  ERL_NIF_TERM head, tail, col, coltail;
+  int i = 0;
+  int j = 0;
+  double current;
+  unsigned int row_length;
+
+  if (!enif_get_list_length(env, list, &row_length)) return enif_make_badarg(env);
+
+  while(enif_get_list_cell(env, list, &head, &tail)) {
+    while(enif_get_list_cell(env, head, &col, &coltail)) {
+      if(!enif_get_double(env, col, &current)) return enif_make_badarg(env);
+      matrix(i, j) = current;
+      j++;
+      head = coltail;
+    }
+    j = 0;
+    i++;
+    list = tail;
+  }
+
+  Matrix3d* mtx = (Matrix3d*) enif_alloc_resource(matrix3d_type, sizeof(Matrix3d));
   memcpy(mtx, &matrix, sizeof(Matrix3d));
 
   result = enif_make_resource(env, mtx);

@@ -13,12 +13,13 @@ defmodule Matrix3dTest do
 
   describe "to_list" do
     test "uses a reference to create a list of lists" do
-      matrix3d = Matrix3d.new()
+      matrix_list = [[1.0, 5.0, 10.0], [4.0, 8.0, 12.0], [7.0, 14.0, 21.0]]
+      matrix3d = Matrix3d.new(matrix_list)
 
       assert matrix3d |> Matrix3d.to_list() == [
-               [1.0, 2.0, 3.0],
-               [4.0, 5.0, 6.0],
-               [7.0, 8.0, 9.0]
+               [1.0, 5.0, 10.0],
+               [4.0, 8.0, 12.0],
+               [7.0, 14.0, 21.0]
              ]
     end
   end
