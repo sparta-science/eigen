@@ -50,7 +50,7 @@ header:
 	@echo 'ERL_INCLUDE_PATH: '$(ERL_INCLUDE_PATH)
 	@echo 'CC: '$(CC)
 	@echo 'CFLAGS: '$(CFLAGS)
-	@echo 'sources: '$(SOURCES)
+	@echo 'SOURCES: '$(SOURCES)
 	@echo
 
 clean:
