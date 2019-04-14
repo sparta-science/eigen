@@ -12,6 +12,7 @@ ERL_NIF_TERM matrix3d_empty(ErlNifEnv *, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM matrix3d_new(ErlNifEnv *, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM matrix3d_to_list(ErlNifEnv *, int argc, const ERL_NIF_TERM argv[]);
 
+ERL_NIF_TERM matrix3d_add(ErlNifEnv *, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM matrix3d_div_scalar(ErlNifEnv *, int argc, const ERL_NIF_TERM argv[]);
 ERL_NIF_TERM matrix3d_mult_scalar(ErlNifEnv *, int argc, const ERL_NIF_TERM argv[]);
 

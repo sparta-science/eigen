@@ -94,6 +94,27 @@ ERL_NIF_TERM matrix3d_to_list(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[
 /  Maths
 ***************************/
 
+ERL_NIF_TERM matrix3d_add(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
+  if (argc != 2) return enif_make_badarg(env);
+
+  Matrix3d* augend;
+  Matrix3d* addend;
+
+  Context* context = (Context*) enif_priv_data(env);
+  if (!enif_get_resource(env, argv[0], context->matrix3d_type, (void**) &augend)) return error(env, "unable to reference pointer");
+  if (!enif_get_resource(env, argv[1], context->matrix3d_type, (void**) &addend)) return error(env, "unable to reference pointer");
+
+  Matrix3d sum = *augend + *addend;
+
+  Matrix3d* mtx = (Matrix3d*) enif_alloc_resource(context->matrix3d_type, sizeof(Matrix3d));
+  memcpy(mtx, &sum, sizeof(Matrix3d));
+
+  ERL_NIF_TERM result = enif_make_resource(env, mtx);
+  enif_release_resource(mtx);
+
+  return ok(env, result);
+}
+
 ERL_NIF_TERM matrix3d_div_scalar(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[]) {
   if (argc != 2) return enif_make_badarg(env);
 

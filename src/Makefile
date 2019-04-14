@@ -47,10 +47,10 @@ $(COMPILE_OBJECTS): $(PREFIX) $(SOURCES)
 
 nif: $(COMPILE_OBJECTS)
 	@echo 'Compiling nif: '$(NIF)
-	$(CC) $(CFLAGS) -o $(NIF) $(COMPILE_OBJECTS) $(LDFLAGS)
+	@$(CC) $(CFLAGS) -o $(NIF) $(COMPILE_OBJECTS) $(LDFLAGS)
 
 $(PREFIX):
-	mkdir -p $@
+	@mkdir -p $@
 
 header:
 	@echo 'Compile Arch: '$(COMPILE_ARCH)

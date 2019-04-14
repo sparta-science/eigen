@@ -16,6 +16,7 @@ static ErlNifFunc nif_functions[] = {
   {"matrix3d_empty", 0, matrix3d_empty, 0},
   {"matrix3d_new", 1, matrix3d_new, 0},
   {"matrix3d_to_list", 1, matrix3d_to_list, 0},
+  {"matrix3d_add", 2, matrix3d_add, 0},
   {"matrix3d_div_scalar", 2, matrix3d_div_scalar, 0},
   {"matrix3d_mult_scalar", 2, matrix3d_mult_scalar, 0}
 };

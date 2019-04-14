@@ -46,9 +46,7 @@ defmodule Eigen.Matrix3dTest do
         ]
         |> Matrix3d.new()
 
-      {:ok, second_matrix3d} =
-        first_matrix3d
-        |> Matrix3d.mult(2.0)
+      {:ok, second_matrix3d} = first_matrix3d |> Matrix3d.mult(2.0)
 
       assert first_matrix3d.__reference__ != second_matrix3d.__reference__
 
@@ -135,6 +133,39 @@ defmodule Eigen.Matrix3dTest do
       matrix = %Matrix3d{__reference__: bad_ref}
 
       assert {:error, "unable to reference pointer"} = matrix |> Matrix3d.div(1.0)
+    end
+  end
+
+  describe "add with matrix" do
+    test "adds two matrices together" do
+      augend = Matrix3d.new([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
+      addend = Matrix3d.new([[1.0, 5.0, 10.0], [4.0, 8.0, 12.0], [7.0, 14.0, 21.0]])
+
+      assert {:ok, sum} = augend |> Matrix3d.add(addend)
+
+      assert sum |> Matrix3d.to_list() == [
+               [2.0, 7.0, 13.0],
+               [8.0, 13.0, 18.0],
+               [14.0, 22.0, 30.0]
+             ]
+    end
+
+    test "returns {:error, message} when the first reference is not found" do
+      bad_ref = :erlang.list_to_ref('#Ref<0.4192537678.4073193475.71181>')
+      augend = %Matrix3d{__reference__: bad_ref}
+
+      addend = Matrix3d.new([[1.0, 5.0, 10.0], [4.0, 8.0, 12.0], [7.0, 14.0, 21.0]])
+
+      assert {:error, "unable to reference pointer"} = augend |> Matrix3d.add(addend)
+    end
+
+    test "returns {:error, message} when the second reference is not found" do
+      augend = Matrix3d.new([[1.0, 5.0, 10.0], [4.0, 8.0, 12.0], [7.0, 14.0, 21.0]])
+
+      bad_ref = :erlang.list_to_ref('#Ref<0.4192537678.4073193475.71181>')
+      addend = %Matrix3d{__reference__: bad_ref}
+
+      assert {:error, "unable to reference pointer"} = augend |> Matrix3d.add(addend)
     end
   end
 end

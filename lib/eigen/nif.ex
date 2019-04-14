@@ -32,6 +32,10 @@ defmodule Eigen.Nif do
   def matrix3d_new(_list), do: :erlang.nif_error(:nif_library_not_loaded)
   def matrix3d_to_list(ref) when is_reference(ref), do: :erlang.nif_error(:nif_library_not_loaded)
 
+  def matrix3d_add(augend_ref, addend_ref)
+      when is_reference(augend_ref) and is_reference(addend_ref),
+      do: :erlang.nif_error(:nif_library_not_loaded)
+
   def matrix3d_div_scalar(ref, _divisor) when is_reference(ref),
     do: :erlang.nif_error(:nif_library_not_loaded)
 

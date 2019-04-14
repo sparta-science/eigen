@@ -17,6 +17,14 @@ defmodule Eigen.Matrix3d do
     %__MODULE__{__reference__: reference}
   end
 
+  def add(%__MODULE__{} = augend, %__MODULE__{} = addend) do
+    with {:ok, reference} <- Nif.matrix3d_add(augend.__reference__, addend.__reference__) do
+      {:ok, %__MODULE__{__reference__: reference}}
+    else
+      {:error, message} -> {:error, to_string(message)}
+    end
+  end
+
   def div(%__MODULE__{} = matrix, divisor) do
     with {:ok, reference} <- Nif.matrix3d_div_scalar(matrix.__reference__, divisor) do
       {:ok, %__MODULE__{__reference__: reference}}
