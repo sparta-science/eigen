@@ -29,18 +29,25 @@ SRC_DIRECTORY = ./src
 SOURCES_DIRECTORIES := $(shell find $(SRC_DIRECTORY) -type d)
 OBJECTS_DIRECTORIES := $(subst $(SRC_DIRECTORY),$(OBJ_DIRECTORY),$(SOURCES_DIRECTORIES))
 
-SOURCES := $(wildcard src/*.cpp)
-COMPILE_OBJECTS := $(SOURCES:src/%.cpp=$(PREFIX)/%.so)
+SOURCES := $(shell find src -type f -name '*.cpp')
+COMPILE_OBJECTS := $(SOURCES:src/%.cpp=$(PREFIX)/%.o)
+LINK_OBJECTS := $(SOURCES:src/%.cpp=%.o)
+NIF := $(PREFIX)/eigen_nif.so
 
 all: header install
 
-install: $(COMPILE_OBJECTS)
+install: nif
 
-$(PREFIX)/%.so: src/%.cpp
+$(PREFIX)/%.o: src/%.cpp
 	@echo 'Compiling: '$<
-	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
+	@mkdir -p "$(@D)"
+	@$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS)
 
 $(COMPILE_OBJECTS): $(PREFIX) $(SOURCES)
+
+nif: $(COMPILE_OBJECTS)
+	@echo 'Compiling nif: '$(NIF)
+	$(CC) $(CFLAGS) -o $(NIF) $(COMPILE_OBJECTS) $(LDFLAGS)
 
 $(PREFIX):
 	mkdir -p $@
